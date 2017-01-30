@@ -1,5 +1,4 @@
-//Matthew Puentes, January 24th
-
+//Matthew Puentes, January 30
 #include"Life.h"
 
 char** initArray(unsigned int x, unsigned int y, char **arrayToInit) {
@@ -25,22 +24,37 @@ void fillArrayFromFile(unsigned int x, unsigned int y, char* fileName,
 	int maxLengthCounter = 0;
 	int heightCounter = 0;
 	int readingFile = 1;
+	char lastReadChar = 'a';
+	char readChar = 'a';
 	while (readingFile) {
-		int recivedChar = getc(input);
-		if (recivedChar == '\n') {
-			heightCounter = heightCounter + 1;
-			if (lengthCounter > maxLengthCounter)
-				maxLengthCounter = lengthCounter;
-			lengthCounter = 0;
-		} else if (recivedChar < 0) {
-			heightCounter = heightCounter + 1;
-			readingFile = 0;
-			if (lengthCounter > maxLengthCounter)
-				maxLengthCounter = lengthCounter;
-		} else
-			lengthCounter = lengthCounter + 1;
+		lastReadChar = readChar;
+		readChar = getc(input);
+		if (readChar != '\r') {
+			if (readChar == '\n') {
+				heightCounter = heightCounter + 1;
+				if (lengthCounter > maxLengthCounter)
+					maxLengthCounter = lengthCounter;
+				lengthCounter = 0;
+
+			} else if (readChar < 0) {
+				if (lastReadChar != '\n')
+					heightCounter = heightCounter + 1;
+				readingFile = 0;
+				if (lengthCounter > maxLengthCounter)
+					maxLengthCounter = lengthCounter;
+
+			} else
+				lengthCounter = lengthCounter + 1;
+
+		}
+
 	}
 	fclose(input);
+
+	if(maxLengthCounter > x || heightCounter > y){
+		printf("Your input file is too large for the specified dimensions.");
+		exit(0);
+	}
 
 	FILE *input2 = fopen(fileName, "r");
 	int xOffset = (x - maxLengthCounter) / 2;
@@ -48,21 +62,21 @@ void fillArrayFromFile(unsigned int x, unsigned int y, char* fileName,
 
 	int j = 0;
 	int i = 0;
-	char lastChar = 'a';
-	char q = 'a';
+	lastReadChar = 'a';
+	readChar = 'a';
 	while (!(i > maxLengthCounter && j > heightCounter)) {
-		lastChar = q;
-		q = getc(input2);
-		if (q != '\r') {
-			if (q < 0) {
-				if (lastChar == '\n')
+		lastReadChar = readChar;
+		readChar = getc(input2);
+		if (readChar != '\r') {
+			if (readChar < 0) {
+				if (lastReadChar == '\n')
 					j--;
 				break;
-			} else if (q == '\n') {
+			} else if (readChar == '\n') {
 				j = j + 1;
 				i = 0 - 1;
 			} else {
-				arrayToFill[i + xOffset][j + yOffset] = q;
+				arrayToFill[i + xOffset][j + yOffset] = readChar;
 			}
 			i++;
 		}
@@ -72,7 +86,7 @@ void fillArrayFromFile(unsigned int x, unsigned int y, char* fileName,
 
 int main(int argc, char *argv[]) {
 	if (argc != 5 && argc != 7) {
-		printf("Error: program expects 4 or 6 arguments");
+		printf("Error: program expects 4 or 6 arguments\n");
 		return 0;
 	}
 	int x = atoi(argv[1]);
@@ -80,10 +94,10 @@ int main(int argc, char *argv[]) {
 	int gens = atoi(argv[3]);
 	int print = 0;
 	int pause = 0;
-	if(argc == 7){
-		if(*argv[5] == 'y')
+	if (argc == 7) {
+		if (*argv[5] == 'y')
 			print = 1;
-		if(*argv[6] == 'y')
+		if (*argv[6] == 'y')
 			pause = 1;
 	}
 	char** mainArray1 = malloc(x * sizeof(char*));
@@ -93,6 +107,7 @@ int main(int argc, char *argv[]) {
 	mainArray1 = initArray(x, y, mainArray1);
 	mainArray2 = initArray(x, y, mainArray2);
 	mainArray3 = initArray(x, y, mainArray3);
+
 	fillArray(x, y, mainArray1, 'o');
 	fillArray(x, y, mainArray2, 'b');
 	fillArray(x, y, mainArray3, 'c');

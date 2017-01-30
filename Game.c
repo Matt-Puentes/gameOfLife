@@ -1,3 +1,4 @@
+//Matthew Puentes, Jan 30
 #include"Life.h"
 #include<unistd.h>
 
@@ -72,44 +73,71 @@ void checkRepeats(unsigned int x, unsigned int y, int print, char** board1,
 		}
 	}
 	if (singleFrameRepeat) {
-		if(print)
+		if (print)
 			printf("Repeat from last generation!\n");
 		exit(0);
 	}
 	if (doubleFrameRepeat) {
-		if(print)
+		if (print)
 			printf("Repeat from two generations ago!\n");
 		exit(0);
 	}
 }
 
+void checkDead(unsigned int x, unsigned int y, int print, char** board1) {
+	for (int i = 0; i < x; i++) {
+		for (int j = 0; j < y; j++) {
+			if (board1[i][j] != 'o') {
+
+			}
+		}
+	}
+}
+
 void gameLoop(unsigned int x, unsigned int y, unsigned int gens, int print,
 		int pause, char** board1, char** historyBoard1, char** historyBoard2) {
-	for (int i = 0; i <= gens; i++) {
-		if(print){
-			printf("\ngen %d\n", i);
-			printBoard(x, y, board1);
+	if (print) {
+		printf("\ngen 0\n");
+		printBoard(x, y, board1);
+		if (pause)
+			printf("\033[%dA", (y + 2));
+		else
+			printf("\033[%dA", (y + 1));
+	}
+	if (print) {
+		if (pause) {
+			getchar();
+		} else {
+			usleep(500000);
 		}
+	}
+	for (int i = 0; i <= gens; i++) {
 
 		updateBoard(x, y, board1);
 
+		if (print) {
+			printf("\ngen %d\n", i + 1);
+			printBoard(x, y, board1);
+		}
+
 		checkRepeats(x, y, print, board1, historyBoard1, historyBoard2);
+
+		checkDead(x, y, print, board1);
 
 		backupBoard(x, y, board1, historyBoard1, historyBoard2);
 
-		if(print){
-			if (i < gens){
-				if(pause)
+		if (print) {
+			if (i < gens) {
+				if (pause)
 					printf("\033[%dA", (y + 3));
 				else
 					printf("\033[%dA", (y + 2));
 			}
 		}
-		if(print){
-			if(pause){
+		if (print) {
+			if (pause) {
 				getchar();
-			}
-			else{
+			} else {
 				usleep(500000);
 			}
 		}

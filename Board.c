@@ -1,3 +1,4 @@
+//Matthew Puentes, Jan 30
 #include"Life.h"
 void printBoard(unsigned int x, unsigned int y, char* arrayToPrint[]){
 	for (int j = 0; j < y; j++){
