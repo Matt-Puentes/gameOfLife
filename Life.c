@@ -3,15 +3,15 @@
 
 char** initArray(unsigned int x, unsigned int y, char **arrayToInit) {
 	int i;
-	for (i = 0; i < x; i++) {
+	for (i = 0; i < x; i++) { //i increments by one each loop, and goes until it reaches the number of columns in the array.
 		arrayToInit[i] = malloc(y * sizeof(char));
 	}
 	return arrayToInit;
 }
 
 void fillArray(unsigned int x, unsigned int y, char** arrayToFill, char z) {
-	for (int i = 0; i < x; i++) {
-		for (int j = 0; j < y; j++) {
+	for (int i = 0; i < x; i++) { //these two for loops increment by one each time. i goes through the columns in the array and j goes through
+		for (int j = 0; j < y; j++) { //the rows. they iterate until they reach the number of rows/columns respectively.
 			arrayToFill[i][j] = z;
 		}
 	}
@@ -26,7 +26,9 @@ void fillArrayFromFile(unsigned int x, unsigned int y, char* fileName,
 	int readingFile = 1;
 	char lastReadChar = 'a';
 	char readChar = 'a';
-	while (readingFile) {
+	while (readingFile) {//this loop has two variables, "lengthCounter" and "heightCounter" that iterate when a
+		//character is read and when a newline is read respectively. lengthCounter also loops back to zero whenever heightCounter iterates
+		//The loop terminates once an EOF character is found.
 		lastReadChar = readChar;
 		readChar = getc(input);
 		if (readChar != '\r') {
@@ -42,7 +44,7 @@ void fillArrayFromFile(unsigned int x, unsigned int y, char* fileName,
 				readingFile = 0;
 				if (lengthCounter > maxLengthCounter)
 					maxLengthCounter = lengthCounter;
-
+				break;
 			} else
 				lengthCounter = lengthCounter + 1;
 
@@ -51,8 +53,8 @@ void fillArrayFromFile(unsigned int x, unsigned int y, char* fileName,
 	}
 	fclose(input);
 
-	if(maxLengthCounter > x || heightCounter > y){
-		printf("Your input file is too large for the specified dimensions.");
+	if (maxLengthCounter > x || heightCounter > y) {
+		printf("Your input file is too large for the specified dimensions.\n");
 		exit(0);
 	}
 
@@ -64,7 +66,9 @@ void fillArrayFromFile(unsigned int x, unsigned int y, char* fileName,
 	int i = 0;
 	lastReadChar = 'a';
 	readChar = 'a';
-	while (!(i > maxLengthCounter && j > heightCounter)) {
+	while (!(i > maxLengthCounter && j > heightCounter)) {//this loop has two variables, "i" and "j" that iterate when a
+		//character is read and when a newline is read respectively. i also loops back to zero whenever j iterates
+		//The loop terminates once both i is greater than maxLengthCounter. and y is greater than heightCounter
 		lastReadChar = readChar;
 		readChar = getc(input2);
 		if (readChar != '\r') {

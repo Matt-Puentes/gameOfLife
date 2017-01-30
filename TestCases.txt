@@ -1,0 +1,180 @@
+NOTE: Please ignore the "[10A" that is printed out. I use it to reset the output in terminal, but it doesn't show up in eclipse. I show the eclipse
+output here as it shows the step-by-step solutions for grading clarity.
+----------------------TestCase1----------------------
+Input:
+	./Life 15 7 5 input.txt y y
+	input.txt:
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxo
+	
+Output:
+	gen 0
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxxx
+	xxxxxxxxxxxxxx 
+	[9A
+	
+	gen 1
+	x             x
+	               
+	               
+	               
+	               
+	               
+	x             x
+	[10A
+	
+	gen 2
+	               
+	               
+	               
+	               
+	               
+	               
+	               
+	[10A
+	
+	gen 3
+	               
+	               
+	               
+	               
+	               
+	               
+	               
+	Repeat from last generation!
+----------------------TestCase2----------------------
+Input: ./Life 15 7 5 input.txt y n
+	input.txt:
+	oxx
+	xx
+	ox
+		
+Output:
+	
+	gen 0
+	               
+	               
+	       xx      
+	      xx       
+	       x       
+	               
+	               
+	[9A
+	gen 1
+	               
+	               
+	      xxx      
+	      x        
+	      xx       
+	               
+	               
+	[9A
+	gen 2
+	               
+	       x       
+	      xx       
+	     x  x      
+	      xx       
+	               
+	               
+	[9A
+	gen 3
+	               
+	      xx       
+	      xxx      
+	     x  x      
+	      xx       
+	               
+	               
+	[9A
+	gen 4
+	               
+	      x x      
+	     x  x      
+	     x  x      
+	      xx       
+	               
+	               
+	[9A
+	gen 5
+	               
+	       x       
+	     xx xx     
+	     x  x      
+	      xx       
+	               
+	               
+	[9A
+	Terminated due to all generations being run
+----------------------TestCase3----------------------
+Input: ./Life 15 7 5 input.txt
+	input.txt:
+	oxx
+	xx
+	ox
+		
+Output:
+	-no output-
+
+----------------------TestCase4----------------------
+Input: ./Life 15
+	input.txt:
+	oxx
+	xx
+	ox
+		
+Output:
+	Error: program expects 4 or 6 arguments
+----------------------TestCase5----------------------
+Input: ./Life 1 1 5 input.txt y n
+	input.txt:
+	oxx
+	xx
+	ox
+		
+Output:
+	Your input file is too large for the specified dimensions.
+
+----------------------TestCase5----------------------
+Input: ./Life 15 7 5 input.txt y n
+	input.txt:
+	xxx
+		
+Output:
+	gen 0
+	               
+	               
+	               
+	      xxx      
+	               
+	               
+	               
+	[9A
+	gen 1
+	               
+	               
+	       x       
+	       x       
+	       x       
+	               
+	               
+	[9A
+	gen 2
+	               
+	               
+	               
+	      xxx      
+	               
+	               
+	               
+	Terminated due to a repeat from two generations ago!
